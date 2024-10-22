@@ -7,3 +7,5 @@ db = client.get_database_by_api_endpoint(
 )
 
 print(f"Connected to Astra DB: {db.list_collection_names()}")
+
+print("teste")
