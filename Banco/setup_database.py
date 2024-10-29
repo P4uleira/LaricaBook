@@ -4,7 +4,7 @@ session = get_session()
 
 # Criação do keyspace
 session.execute("""
-    CREATE KEYSPACE IF NOT EXISTS LaricaBook
+    CREATE KEYSPACE IF NOT EXISTS laricaBook
     WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}
 """)
 
