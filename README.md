@@ -1,8 +1,14 @@
 # LaricaBook
 
 # Link
+https://www.python.org/downloads/release/python-3110/
+https://docs.docker.com/desktop/install/windows-install/
 
-DB Astra -> https://astra.datastax.com/org/7a6e9062-ee8f-4235-95be-595fab8cc662/database/d307a082-ac11-47ec-a549-4a54d7ce3c41/data-explorer
+# Comandos importantes 
+docker run --name cassandra-container -p 9042:9042 -d cassandra:latest --Esse deve ser executado no docker
+
+pip install cassandra-driver --Esse no vs code
+pip install flask cassandra-driver--Esse no vs code
 
 # Git Hub -> Passo a Passo =)
 
