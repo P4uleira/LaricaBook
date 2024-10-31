@@ -1,11 +1,11 @@
 from flask import *
 import uuid
-from Banco.db_connection import get_session
+from Cassandra.db_connection import get_session
 
 session = get_session()
 session.set_keyspace('laricabook')
 
-app = Flask(__name__, template_folder="../Front")
+app = Flask(__name__)
 
 @app.route('/')
 def index():
