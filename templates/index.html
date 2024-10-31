@@ -6,27 +6,13 @@
     <title>Larica Book - Adicionar Receita</title>
 </head>
 <body>
-    <h1>Adicionar Receita</h1>
-    <form action="/add_receita" method="post">
-        <label for="nome_receita">Nome da Receita:</label><br>
-        <input type="text" id="nome_receita" name="nome_receita" required><br><br>
-
-        <label for="categoria">Categoria:</label><br>
-        <input type="text" id="categoria" name="categoria" required><br><br>
-
-        <label for="ingredientes">Ingredientes (separados por vírgula):</label><br>
-        <input type="text" id="ingredientes" name="ingredientes" required><br><br>
-
-        <label for="instrucoes">Instruções:</label><br>
-        <textarea id="instrucoes" name="instrucoes" required></textarea><br><br>
-
-        <label for="tempo_preparo">Tempo de Preparo (em minutos):</label><br>
-        <input type="number" id="tempo_preparo" name="tempo_preparo" required><br><br>
-
-        <label for="porcoes">Porções:</label><br>
-        <input type="number" id="porcoes" name="porcoes" required><br><br>
-
-        <input type="submit" value="Adicionar Receita">
-    </form>
+    <h1>LOGIN</h1>
+    {% for item in data %}
+    <tr>
+        <td>{{ item.nome_receita }}</td>
+        <br>
+        <td>{{ item.categoria }}</td> 
+    </tr>
+    {% endfor %}
 </body>
 </html>
