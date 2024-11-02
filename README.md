@@ -1,6 +1,6 @@
 # LaricaBook
 
-# Itens faltantes:
+# Itens faltantes
 Tela de LOGIN ( Cadastro e Login )
 Desenvolvimento da tela principal ( Tela base que contém o menu que possibilita navegar pelo sistema )
 Desenvolvimento da tela das funcionalidades
