@@ -11,39 +11,29 @@
 <main>
     <body>
         <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-            <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
-                <h2 class="text-center mb-4">Login</h2>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <ul id="messages" class="list-unstyled">
-                            {% for message in messages %}
-                                <li class="alert alert-danger">{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %} 
-
-                <form action="/validaUsuario" method="POST">
+            <div class="card p-4 shadow" style="width: 100%; max-width: 500px;">
+                <h2 class="text-center mb-4">Formulário de Cadastro</h2>
+                <form action="/cadastraUser" method="POST">
                     <div class="form-group">
-                        <label for="username">Usuário</label>
-                        <input type="text" class="form-control" id="username" name="username"
-                            placeholder="Digite seu usuário" required>
+                        <label for="name">Nome</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Digite seu nome"
+                            required>
                     </div>
-                </br>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu email"
+                            required>
+                    </div>
                     <div class="form-group">
                         <label for="password">Senha</label>
                         <input type="password" class="form-control" id="password" name="password"
                             placeholder="Digite sua senha" required>
                     </div>
-                </br>
-                    <button type="submit" class="btn btn-primary btn-block">Entrar</button> 
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
                 </form>
-                <p class="text-center mt-3">
-                    <a href="/SignUP">Criar Conta</a>
-                </p>
             </div>
         </div>
     </body>
 </main>
-
 </html>

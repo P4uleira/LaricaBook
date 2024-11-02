@@ -14,54 +14,31 @@ session.set_keyspace('laricabook')
 # Criação da tabela "receitas"
 session.execute("""
     CREATE TABLE IF NOT EXISTS receitas (
-    id_receita UUID PRIMARY KEY,
-    nome_receita TEXT,
-    categoria TEXT,
-    ingredientes LIST<TEXT>,  
-    instrucoes TEXT,
-    tempo_preparo INT,  
-    porcoes INT,
-    foto BLOB,          
-    fonte_links TEXT,  
-    data_adicao TIMESTAMP
-    );
-""")
-
-# Criação da tabela "comentarios"
-session.execute("""
-    CREATE TABLE IF NOT EXISTS receitasComentarios (
-    comentario_id UUID,
-    id_receita UUID,
-    usuario_id UUID,
-    comentario TEXT,
-    avaliacao INT,
-    data TIMESTAMP,
-    PRIMARY KEY ((id_receita), data, comentario_id)
-    );
-""")
-
-# Criação da tabela "categorias"
-session.execute("""
-    CREATE TABLE IF NOT EXISTS categoriasReceitas (
-    categoria text,
-    id_receita UUID,
-    PRIMARY KEY (categoria, id_receita)
-    );
+        id_receita UUID,
+        nome_receita TEXT,
+        categoria TEXT,
+        ingredientes LIST<TEXT>,  
+        instrucoes TEXT,
+        tempo_preparo INT,  
+        porcoes INT,          
+        fonte_links TEXT,  
+        data_adicao TIMESTAMP,
+        PRIMARY KEY (id_receita, nome_receita)
+    ) WITH CLUSTERING ORDER BY (nome_receita ASC);
 """)
 
 # Criação da tabela "de usuários"
 session.execute("""
     CREATE TABLE IF NOT EXISTS usuarios (
-        id_usuario UUID PRIMARY KEY,
+        id_usuario UUID,
         nome TEXT,
         email TEXT,
-        senha TEXT, 
+        senha TEXT,
         data_criacao TIMESTAMP,
-        foto_perfil BLOB
-    );
+        PRIMARY KEY (id_usuario, nome)
+    ) WITH CLUSTERING ORDER BY (nome ASC);
 """)
 
-#Criar depois um insert padrão para execução
 
 session.shutdown()
 
