@@ -1,5 +1,12 @@
 # LaricaBook
 
+# Itens faltantes:
+Tela de LOGIN ( Cadastro e Login )
+Desenvolvimento da tela principal ( Tela base que contém o menu que possibilita navegar pelo sistema )
+Desenvolvimento da tela das funcionalidades
+  1- Adicionar/Editar/Excluir receita
+  2- Buscar por receitas
+  
 # Link
 https://www.python.org/downloads/release/python-3110/
 https://docs.docker.com/desktop/install/windows-install/
