@@ -6,7 +6,10 @@ from Cassandra.db_connection import get_session
 session_bd = get_session()
 session_bd.set_keyspace('laricabook')
 
-app = Flask(__name__, template_folder=os.path.join("..", "templates"))
+app = Flask(__name__, 
+            template_folder=os.path.join("..", "templates"), 
+            static_folder=os.path.join("..", "static"))
+
 app.secret_key = 'laricabook'
 
 # Sistema de login do larica
