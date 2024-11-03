@@ -1,8 +1,8 @@
 # LaricaBook
 
 # Itens faltantes
-Tela de LOGIN ( Cadastro e Login )
-Desenvolvimento da tela principal ( Tela base que contém o menu que possibilita navegar pelo sistema )
+Tela de LOGIN ( Cadastro e Login ) OKAY
+Desenvolvimento da tela principal ( Tela base que contém o menu que possibilita navegar pelo sistema ) Quase finalizado falta melhorar o conteudo 
 Desenvolvimento da tela das funcionalidades
   1- Adicionar/Editar/Excluir receita
   2- Buscar por receitas
