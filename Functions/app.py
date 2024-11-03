@@ -10,6 +10,8 @@ app = Flask(__name__,
             template_folder=os.path.join("..", "templates"), 
             static_folder=os.path.join("..", "static"))
 
+UPLOAD_FOLDER = os.path.join(app.static_folder, 'Imagens')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.secret_key = 'laricabook'
 
 # Sistema de login do larica
@@ -55,6 +57,7 @@ def validaUsario():
 
         if resultadoBusca :
             session['nome_usuario'] = nome_usuario
+            session['id_usuario'] = resultadoBusca[0].id_usuario
             return render_template('home.html')
         else:
             flash('Usuário ou senha incorretas!')
@@ -68,6 +71,25 @@ def home():
     if session.get('nome_usuario') is None :
         return render_template('index.html')
         print(f"tem sessão: " + session['nome_usuario'])
+
+        try:
+            query = "SELECT * FROM laricabook.receitas WHERE id_usuario = %s ALLOW FILTERING"
+            receitas = session_bd.execute(query, (session['id_usuario']))
+            
+            receitas_list = []
+            for receita in receitas:
+                receitas_list.append({
+                    'nome_receita': receita.nome_receita,
+                    'categoria': receita.categoria,
+                    'fonte_link': receita.fonte_links,  
+                    'ingredientes': ', '.join(receita.ingredientes),  
+                    'instrucoes': receita.instrucoes,
+                    'porcoes': receita.porcoes,
+                    'tempo_preparo': receita.tempo_preparo,
+                    'publico': receita.receita_publica
+                })
+        except Exception as e:
+            print(f"Erro ao mostrar receitas: {e}")
     else:
         return render_template('home.html')
 
@@ -132,12 +154,24 @@ def add_receita():
     porcoes_receita = int(porcoes_receita)
     tempo_preparo_receita = request.form['tempo_preparo'] 
     tempo_preparo_receita = int(tempo_preparo_receita)
+    receita_publica = request.form['publico'] == 'true'
+    id_usuario = session['id_usuario']
+
+    
+    if 'imagem' in request.files:
+        imagem = request.files['imagem']  
+        if imagem and allowed_file(imagem.filename):  
+            
+            extensao = imagem.filename.rsplit('.', 1)[1].lower()
+            nome_imagem = f"{id_usuario}_{id_receita}.{extensao}" 
+            caminho_imagem = os.path.join(UPLOAD_FOLDER, nome_imagem)
+            imagem.save(caminho_imagem)  
 
     try:
         session_bd.execute(""" 
-        INSERT INTO laricabook.receitas (id_receita, nome_receita, categoria, data_adicao, fonte_links, ingredientes, instrucoes, porcoes, tempo_preparo
-        ) VALUES (%s, %s, %s, toTimestamp(now()), %s, %s, %s, %s, %s)
-        """, (id_receita, nome_receita, categoria_receita, fontes_link_receita, ingredientes_lista, instrucoes_receita, porcoes_receita, tempo_preparo_receita)
+        INSERT INTO laricabook.receitas (id_receita, nome_receita, categoria, data_adicao, fonte_links, ingredientes, instrucoes, porcoes, tempo_preparo, receita_publica, id_usuario
+        ) VALUES (%s, %s, %s, toTimestamp(now()), %s, %s, %s, %s, %s, %s, %s)
+        """, (id_receita, nome_receita, categoria_receita, fontes_link_receita, ingredientes_lista, instrucoes_receita, porcoes_receita, tempo_preparo_receita, receita_publica, id_usuario)
         )
     except Exception as e:
         print(f"Erro ao inserir a receita: {e}")

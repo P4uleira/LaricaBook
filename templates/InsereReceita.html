@@ -79,6 +79,28 @@
                     <input type="number" class="form-control" id="tempo_preparo" name="tempo_preparo"
                         placeholder="Digite o tempo de preparo" required>
                 </div>
+
+                <div class="form-group">
+                    <label>Essa receita pode ser pública?</label><br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="publico" id="publico_sim" value="true" required>
+                        <label class="form-check-label" for="publico_sim">
+                            Sim
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="publico" id="publico_nao" value="false" required>
+                        <label class="form-check-label" for="publico_nao">
+                            Não
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imagem">Foto da receita</label>
+                    <input type="file" class="form-control" id="imagem" name="imagem" accept="image/*" required>
+                </div>
+
                 <button type="submit" class="btn btn-success btn-block">Salvar Receita</button>
             </form>
         </div>

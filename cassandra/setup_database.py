@@ -17,17 +17,19 @@ session.execute("""
         id_receita UUID,
         nome_receita TEXT,
         categoria TEXT,
+        data_adicao TIMESTAMP,
+        fonte_links TEXT,  
         ingredientes LIST<TEXT>,  
         instrucoes TEXT,
-        tempo_preparo INT,  
         porcoes INT,          
-        fonte_links TEXT,  
-        data_adicao TIMESTAMP,
+        tempo_preparo INT,  
+        receita_publica BOOLEAN,
+        id_usuario UUID,
         PRIMARY KEY (id_receita, nome_receita)
     ) WITH CLUSTERING ORDER BY (nome_receita ASC);
 """)
 
-# Criação da tabela "de usuários"
+# Criação da tabela "usuarios"
 session.execute("""
     CREATE TABLE IF NOT EXISTS usuarios (
         id_usuario UUID,
