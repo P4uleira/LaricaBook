@@ -78,8 +78,9 @@ def home():
         return render_template('index.html')
     else:
         try:
-            query = "SELECT * FROM laricabook.receitas"
-            receitas = session_bd.execute(query)            
+            idUser = session.get('id_usuario')
+            query = "SELECT * FROM laricabook.receitas WHERE id_usuario = %s ALLOW FILTERING"
+            receitas = session_bd.execute(query, (idUser,))            
             extensoes_permitidas = ['jpg', 'png', 'jpeg']
             receitas_list_home = []
             
@@ -202,7 +203,7 @@ def add_receita():
     except Exception as e:
         print(f"Erro ao inserir a receita: {e}")
 
-    return render_template('InsereReceita.html')
+    return render_template('Home.html')
 
 @app.route('/EditarReceita/<uuid:id_receita>')
 def edit_receita(id_receita):
