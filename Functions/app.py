@@ -77,16 +77,14 @@ def home():
     if session.get('nome_usuario') is None:
         return render_template('index.html')
     else:
-        receitas_list_home = []
         try:
             query = "SELECT * FROM laricabook.receitas"
             receitas = session_bd.execute(query)
-            print(receitas)
+
             extensoes_permitidas = ['jpg', 'png', 'jpeg']
-            
             receitas_list_home = []
+            
             for receita in receitas:
-                
                 caminho_imagem = None
                 for ext in extensoes_permitidas:
                     nome_imagem = f"{receita.id_usuario}_{receita.id_receita}.{ext}"
@@ -96,8 +94,8 @@ def home():
                         caminho_imagem = f"Imagens/{nome_imagem}"
                         print(f"Imagem encontrada: {caminho_imagem}")
                         break  
-            
-            for receita in receitas:
+
+                
                 receitas_list_home.append({
                     'nome_receita': receita.nome_receita,
                     'categoria': receita.categoria,
@@ -113,6 +111,7 @@ def home():
             print(f"Erro ao mostrar receitas: {e}")
 
         return render_template('home.html', receitas=receitas_list_home)
+
 
 
 # Fim do sistema de Login
