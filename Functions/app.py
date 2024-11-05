@@ -58,22 +58,28 @@ def validaUsario():
         if resultadoBusca :
             session['nome_usuario'] = nome_usuario
             session['id_usuario'] = resultadoBusca[0].id_usuario
-            return render_template('home.html')
+                       
         else:
             flash('Usuário ou senha incorretas!')
             return render_template('index.html')
 
     except Exception as e:
         print(f"Erro ao tentar logar no sistema {e}")
+        
+    
+    return render_template('home.html')
+    
 
 @app.route('/Home')
 def home():
     if session.get('nome_usuario') is None :
         return render_template('index.html')
     else:
+        receitas_list_home = []
         try:
             query = "SELECT * FROM laricabook.receitas"
             receitas = session_bd.execute(query)
+            print(receitas)
             extensoes_permitidas = ['jpg', 'png', 'jpeg']
             for receita in receitas:
                 caminho_imagem = None
@@ -84,7 +90,6 @@ def home():
                         caminho_imagem = caminho_possivel
                         break  
             
-            receitas_list_home = []
             for receita in receitas:
                 receitas_list_home.append({
                     'nome_receita': receita.nome_receita,
@@ -120,11 +125,12 @@ def homeReceita():
         return render_template('index.html')
         print(f"tem sessão: " + session['nome_usuario'])
     else:
-        
+        receitas_list = []
         try:
             query = "SELECT * FROM laricabook.receitas WHERE receita_publica = true ALLOW FILTERING"
             receitas = session_bd.execute(query)
-
+            print(receitas)
+            
             extensoes_permitidas = ['jpg', 'png', 'jpeg', 'gif']
             for receita in receitas:
                 caminho_imagem = None
@@ -134,10 +140,10 @@ def homeReceita():
                     if os.path.exists(caminho_possivel):  # Verifica se o arquivo existe
                         caminho_imagem = caminho_possivel
                         break  # Para o loop quando encontrar uma imagem
+            
 
-
-            receitas_list = []
             for receita in receitas:
+                print(receita)
                 receitas_list.append({
                     'nome_receita': receita.nome_receita,
                     'categoria': receita.categoria,
