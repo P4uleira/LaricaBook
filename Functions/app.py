@@ -66,26 +66,31 @@ def validaUsario():
     except Exception as e:
         print(f"Erro ao tentar logar no sistema {e}")
 
+import os
+
 @app.route('/Home')
 def home():
-    if session.get('nome_usuario') is None :
+    if session.get('nome_usuario') is None:
         return render_template('index.html')
     else:
         try:
             query = "SELECT * FROM laricabook.receitas"
             receitas = session_bd.execute(query)
             extensoes_permitidas = ['jpg', 'png', 'jpeg']
+            
+            receitas_list_home = []
             for receita in receitas:
+                
                 caminho_imagem = None
                 for ext in extensoes_permitidas:
                     nome_imagem = f"{receita.id_usuario}_{receita.id_receita}.{ext}"
                     caminho_possivel = os.path.join(UPLOAD_FOLDER, nome_imagem)
+                    print(f"Verificando caminho da imagem: {caminho_possivel}")
                     if os.path.exists(caminho_possivel): 
-                        caminho_imagem = caminho_possivel
+                        caminho_imagem = f"Imagens/{nome_imagem}"
+                        print(f"Imagem encontrada: {caminho_imagem}")
                         break  
-            
-            receitas_list_home = []
-            for receita in receitas:
+                
                 receitas_list_home.append({
                     'nome_receita': receita.nome_receita,
                     'categoria': receita.categoria,
@@ -100,7 +105,8 @@ def home():
         except Exception as e:
             print(f"Erro ao mostrar receitas: {e}")
 
-        return render_template('home.html',  receitas=receitas_list_home)
+        return render_template('home.html', receitas=receitas_list_home)
+
 
 # Fim do sistema de Login
 
@@ -124,20 +130,21 @@ def homeReceita():
         try:
             query = "SELECT * FROM laricabook.receitas WHERE receita_publica = true ALLOW FILTERING"
             receitas = session_bd.execute(query)
-
-            extensoes_permitidas = ['jpg', 'png', 'jpeg', 'gif']
+            extensoes_permitidas = ['jpg', 'png', 'jpeg']
+            
+            receitas_list = []
             for receita in receitas:
+                
                 caminho_imagem = None
                 for ext in extensoes_permitidas:
                     nome_imagem = f"{receita.id_usuario}_{receita.id_receita}.{ext}"
-                    caminho_possivel = os.path.join("static/Imagens", nome_imagem)
-                    if os.path.exists(caminho_possivel):  # Verifica se o arquivo existe
-                        caminho_imagem = caminho_possivel
-                        break  # Para o loop quando encontrar uma imagem
-
-
-            receitas_list = []
-            for receita in receitas:
+                    caminho_possivel = os.path.join(UPLOAD_FOLDER, nome_imagem)
+                    print(f"Verificando caminho da imagem: {caminho_possivel}")
+                    if os.path.exists(caminho_possivel): 
+                        caminho_imagem = f"Imagens/{nome_imagem}"
+                        print(f"Imagem encontrada: {caminho_imagem}")
+                        break  
+                
                 receitas_list.append({
                     'nome_receita': receita.nome_receita,
                     'categoria': receita.categoria,
@@ -146,7 +153,7 @@ def homeReceita():
                     'instrucoes': receita.instrucoes,
                     'porcoes': receita.porcoes,
                     'tempo_preparo': receita.tempo_preparo,
-                    'imagem': caminho_possivel
+                    'imagem': caminho_imagem
                 })
         except Exception as e:
             print(f"Erro ao mostrar receitas: {e}")
