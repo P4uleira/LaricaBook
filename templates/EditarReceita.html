@@ -35,7 +35,7 @@
             <div class="container" style="margin-bottom: 3rem;">
                 <form action="/AtualizarReceita" method="POST" enctype="multipart/form-data">
                     <div style="display: flex;flex-direction: column;gap: 20px;">
-                        <input type="text" class="form-control" id="id_receita" name="id_receita"
+                        <input hidden type="text" class="form-control" id="id_receita" name="id_receita"
                             value="{{ receita[0].id_receita }}" >
 
                         <div class="form-group">
@@ -63,7 +63,7 @@
                         <div class="form-group">
                             <label for="ingredientes">Ingredientes</label>
                             <textarea class="form-control" id="ingredientes" name="ingredientes" rows="3"
-                                 required>{% for item in receita[0].ingredientes %}{{ item }}. {% endfor %}    
+                                 required>{% for item in receita[0].ingredientes %}{{ item }}, {% endfor %}    
                             </textarea>
                         </div>
                         <div class="form-group">
@@ -97,8 +97,10 @@
                                 </label>
                             </div>
                         </div>       
-                        
-                        <button type="submit" class="btn btn-success btn-block">Salvar Receita</button>
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-success btn-block">Salvar Receita</button>
+                            <a class="btn btn-danger" href="/RemoverReceita/{{ receita[0].id_receita }}">Excluir Receita</a>
+                        </div>
                     </div>
                 </form>
             </div>

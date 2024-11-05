@@ -79,8 +79,7 @@ def home():
     else:
         try:
             query = "SELECT * FROM laricabook.receitas"
-            receitas = session_bd.execute(query)
-            print("testes", receitas)
+            receitas = session_bd.execute(query)            
             extensoes_permitidas = ['jpg', 'png', 'jpeg']
             receitas_list_home = []
             
@@ -256,15 +255,33 @@ def atualizar_receita():
         id_receita = uuid.UUID(id_receita2)
         session_bd.execute(""" 
         UPDATE laricabook.receitas 
-        SET categoria = %s, fonte_links = %s, ingredientes = %s, instrucoes = %s, porcoes = %s, tempo_preparo = %s, receita_publica = %s
-        WHERE id_receita = %s AND nome_receita = %s
-        """, (categoria_receita, fontes_link_receita, ingredientes_lista, instrucoes_receita, porcoes_receita, tempo_preparo_receita, receita_publica, id_receita, nome_receita))
+        SET nome_receita = %s, categoria = %s, fonte_links = %s, ingredientes = %s, instrucoes = %s, porcoes = %s, tempo_preparo = %s, receita_publica = %s
+        WHERE id_receita = %s
+        """, (nome_receita ,categoria_receita, fontes_link_receita, ingredientes_lista, instrucoes_receita, porcoes_receita, tempo_preparo_receita, receita_publica, id_receita))
 
-        return render_template('Home')
+        return redirect(url_for('home'))
 
     except Exception as e:
         print(f"Erro ao atualizar a receita: {e}")
         return render_template('InsereReceita.html', error="Erro ao atualizar a receita.")
+
+
+@app.route('/RemoverReceita/<uuid:id_receita>')
+def del_receita(id_receita):
+    if session.get('nome_usuario') is None :
+        return render_template('index.html')        
+    else:        
+        try: 
+            print(id_receita)                     
+            session_bd.execute(
+                "DELETE FROM laricabook.receitas WHERE id_receita=%s", (id_receita,)
+            )
+            
+            return redirect(url_for('insereReceita'))
+        except Exception as e:
+            print(f"Erro ao carregar receita para edição: {e}")
+            return redirect(url_for('home'))
+
 
 
 
