@@ -51,11 +51,7 @@
                             <th>Porções</th>
                             <th>Tempo de Preparo (min)</th>
                             <th>Imagem</th>
-<<<<<<< HEAD
                             <th>Editar</th>
-=======
-                            <th>Opções</th>
->>>>>>> 22ce2a28a48fc38a961ef50df751c501839d5745
                         </tr>
                     </thead>
                     <tbody>
@@ -85,6 +81,9 @@
                 const caminho = window.location.pathname;                
 
                 if (caminho == '/validaUsuario')
+                    window.location.href = '/Home';
+
+                if (caminho == '/enviaReceita')
                     window.location.href = '/Home';
 
                 
