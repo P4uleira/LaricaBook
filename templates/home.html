@@ -47,6 +47,39 @@
             
             <h1 class="text-center">Bem-vindo {{ session['nome_usuario'] }} à Página Inicial do Larica Book!</h1>
             <p class="text-center">Aqui você pode acessar as funcionalidades do seu aplicativo.</p>
+
+            <h2 class="text-center">Lista de Receitas</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nome da Receita</th>
+                            <th>Categoria</th>
+                            <th>Fontes/Links</th>
+                            <th>Ingredientes</th>
+                            <th>Instruções</th>
+                            <th>Porções</th>
+                            <th>Tempo de Preparo (min)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for receita in receitas %}
+                            <tr>
+                                <td>{{ receita.nome_receita }}</td>
+                                <td>{{ receita.categoria }}</td>
+                                <td><a href="{{ receita.fonte_link }}" target="_blank">Link</a></td>
+                                <td>{{ receita.ingredientes }}</td>
+                                <td>{{ receita.instrucoes }}</td>
+                                <td>{{ receita.porcoes }}</td>
+                                <td>{{ receita.tempo_preparo }}</td>
+                                <td>
+                                    <img src="{{ url_for('static', filename=receita.imagem) }}" alt="Imagem da receita" width="100" height="100">
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </body>
 </main>

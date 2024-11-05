@@ -70,15 +70,23 @@ def validaUsario():
 def home():
     if session.get('nome_usuario') is None :
         return render_template('index.html')
-        print(f"tem sessão: " + session['nome_usuario'])
-
+    else:
         try:
-            query = "SELECT * FROM laricabook.receitas WHERE id_usuario = %s ALLOW FILTERING"
-            receitas = session_bd.execute(query, (session['id_usuario']))
-            
-            receitas_list = []
+            query = "SELECT * FROM laricabook.receitas"
+            receitas = session_bd.execute(query)
+            extensoes_permitidas = ['jpg', 'png', 'jpeg']
             for receita in receitas:
-                receitas_list.append({
+                caminho_imagem = None
+                for ext in extensoes_permitidas:
+                    nome_imagem = f"{receita.id_usuario}_{receita.id_receita}.{ext}"
+                    caminho_possivel = os.path.join(UPLOAD_FOLDER, nome_imagem)
+                    if os.path.exists(caminho_possivel): 
+                        caminho_imagem = caminho_possivel
+                        break  
+            
+            receitas_list_home = []
+            for receita in receitas:
+                receitas_list_home.append({
                     'nome_receita': receita.nome_receita,
                     'categoria': receita.categoria,
                     'fonte_link': receita.fonte_links,  
@@ -86,12 +94,13 @@ def home():
                     'instrucoes': receita.instrucoes,
                     'porcoes': receita.porcoes,
                     'tempo_preparo': receita.tempo_preparo,
-                    'publico': receita.receita_publica
+                    'imagem': caminho_imagem
                 })
+
         except Exception as e:
             print(f"Erro ao mostrar receitas: {e}")
-    else:
-        return render_template('home.html')
+
+        return render_template('home.html',  receitas=receitas_list_home)
 
 # Fim do sistema de Login
 
@@ -113,9 +122,20 @@ def homeReceita():
     else:
         
         try:
-            query = "SELECT * FROM laricabook.receitas"
+            query = "SELECT * FROM laricabook.receitas WHERE receita_publica = true ALLOW FILTERING"
             receitas = session_bd.execute(query)
-            
+
+            extensoes_permitidas = ['jpg', 'png', 'jpeg', 'gif']
+            for receita in receitas:
+                caminho_imagem = None
+                for ext in extensoes_permitidas:
+                    nome_imagem = f"{receita.id_usuario}_{receita.id_receita}.{ext}"
+                    caminho_possivel = os.path.join("static/Imagens", nome_imagem)
+                    if os.path.exists(caminho_possivel):  # Verifica se o arquivo existe
+                        caminho_imagem = caminho_possivel
+                        break  # Para o loop quando encontrar uma imagem
+
+
             receitas_list = []
             for receita in receitas:
                 receitas_list.append({
@@ -125,7 +145,8 @@ def homeReceita():
                     'ingredientes': ', '.join(receita.ingredientes),  
                     'instrucoes': receita.instrucoes,
                     'porcoes': receita.porcoes,
-                    'tempo_preparo': receita.tempo_preparo
+                    'tempo_preparo': receita.tempo_preparo,
+                    'imagem': caminho_possivel
                 })
         except Exception as e:
             print(f"Erro ao mostrar receitas: {e}")
@@ -156,16 +177,12 @@ def add_receita():
     tempo_preparo_receita = int(tempo_preparo_receita)
     receita_publica = request.form['publico'] == 'true'
     id_usuario = session['id_usuario']
-
+    imagem_receita = request.files['imagem']
     
-    if 'imagem' in request.files:
-        imagem = request.files['imagem']  
-        if imagem and allowed_file(imagem.filename):  
-            
-            extensao = imagem.filename.rsplit('.', 1)[1].lower()
-            nome_imagem = f"{id_usuario}_{id_receita}.{extensao}" 
-            caminho_imagem = os.path.join(UPLOAD_FOLDER, nome_imagem)
-            imagem.save(caminho_imagem)  
+    extensao = imagem_receita.filename.rsplit('.', 1)[1].lower()
+    nome_imagem = f"{id_usuario}_{id_receita}.{extensao}" 
+    caminho_imagem = os.path.join(UPLOAD_FOLDER, nome_imagem)
+    imagem_receita.save(caminho_imagem)  
 
     try:
         session_bd.execute(""" 
