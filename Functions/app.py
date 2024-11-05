@@ -70,9 +70,11 @@ def validaUsario():
     return render_template('home.html')
     
 
+import os
+
 @app.route('/Home')
 def home():
-    if session.get('nome_usuario') is None :
+    if session.get('nome_usuario') is None:
         return render_template('index.html')
     else:
         receitas_list_home = []
@@ -81,13 +83,18 @@ def home():
             receitas = session_bd.execute(query)
             print(receitas)
             extensoes_permitidas = ['jpg', 'png', 'jpeg']
+            
+            receitas_list_home = []
             for receita in receitas:
+                
                 caminho_imagem = None
                 for ext in extensoes_permitidas:
                     nome_imagem = f"{receita.id_usuario}_{receita.id_receita}.{ext}"
                     caminho_possivel = os.path.join(UPLOAD_FOLDER, nome_imagem)
+                    print(f"Verificando caminho da imagem: {caminho_possivel}")
                     if os.path.exists(caminho_possivel): 
-                        caminho_imagem = caminho_possivel
+                        caminho_imagem = f"Imagens/{nome_imagem}"
+                        print(f"Imagem encontrada: {caminho_imagem}")
                         break  
             
             for receita in receitas:
@@ -105,7 +112,8 @@ def home():
         except Exception as e:
             print(f"Erro ao mostrar receitas: {e}")
 
-        return render_template('home.html',  receitas=receitas_list_home)
+        return render_template('home.html', receitas=receitas_list_home)
+
 
 # Fim do sistema de Login
 
@@ -133,6 +141,7 @@ def homeReceita():
             
             extensoes_permitidas = ['jpg', 'png', 'jpeg', 'gif']
             for receita in receitas:
+                
                 caminho_imagem = None
                 for ext in extensoes_permitidas:
                     nome_imagem = f"{receita.id_usuario}_{receita.id_receita}.{ext}"
@@ -152,7 +161,7 @@ def homeReceita():
                     'instrucoes': receita.instrucoes,
                     'porcoes': receita.porcoes,
                     'tempo_preparo': receita.tempo_preparo,
-                    'imagem': caminho_possivel
+                    'imagem': caminho_imagem
                 })
         except Exception as e:
             print(f"Erro ao mostrar receitas: {e}")
