@@ -20,9 +20,10 @@
         {% block content %}
 
         <div class="container mt-5">
-            <h1 class="text-center">Home - Receitas</h1>
-
-            <h2 class="text-center">Lista de Receitas</h2>
+            <h1 class="text-center">Receitas Públicas</h1>
+            <br>
+            <h2 class="text-center">Explore uma seleção especial de receitas compartilhadas por nossa comunidade. Aproveite e inspire-se para suas próximas delícias culinárias!</h2>
+            <br>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -34,6 +35,7 @@
                             <th>Instruções</th>
                             <th>Porções</th>
                             <th>Tempo de Preparo (min)</th>
+                            <th>Imagem</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,7 +49,7 @@
                                 <td>{{ receita.porcoes }}</td>
                                 <td>{{ receita.tempo_preparo }}</td>
                                 <td>
-                                    <img src="{{ url_for('static', filename=receita.imagem) }}" alt="Imagem da receita" width="100" height="100">
+                                    <img src="{{ url_for('static', filename=receita.imagem) }}" alt="Imagem da receita" width="100" height="100"> 
                                 </td>
                             </tr>
                         {% endfor %}

@@ -28,7 +28,9 @@
 
         {% block content %}
         <div class="container mt-5">
-            
+            <div class="text-center">
+                <img src="{{ url_for('static', filename='Imagens/larica.png') }}" alt="logo" class="img-fluid" style="max-width: 300px; height: auto;">
+            </div>
             <h1 class="text-center">Bem-vindo {{ session['nome_usuario'] }} à Página Inicial do Larica Book!</h1>
             <p class="text-center">Aqui você pode acessar as funcionalidades do seu aplicativo.</p>
             
@@ -36,7 +38,7 @@
                 <a href="/InserirReceita" class="btn btn-primary btn-custom">Inserir Receita</a>
             </div>
 
-            <h2 class="text-center">Lista de Receitas</h2>
+            <h2 class="text-center">Explore a Coleção das Suas Receitas!</h2>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -48,6 +50,8 @@
                             <th>Instruções</th>
                             <th>Porções</th>
                             <th>Tempo de Preparo (min)</th>
+                            <th>Imagem</th>
+                            <th>Editar</th>
                         </tr>
                     </thead>
                     <tbody>
