@@ -51,7 +51,11 @@
                             <th>Porções</th>
                             <th>Tempo de Preparo (min)</th>
                             <th>Imagem</th>
+<<<<<<< HEAD
                             <th>Editar</th>
+=======
+                            <th>Opções</th>
+>>>>>>> 22ce2a28a48fc38a961ef50df751c501839d5745
                         </tr>
                     </thead>
                     <tbody>
@@ -64,9 +68,10 @@
                                 <td>{{ receita.instrucoes }}</td>
                                 <td>{{ receita.porcoes }}</td>
                                 <td>{{ receita.tempo_preparo }}</td>
-                                <td>
+                                <td>                                    
                                     <img src="{{ url_for('static', filename=receita.imagem) }}" alt="Imagem da receita" width="100" height="100">
                                 </td>
+                                <td><a class="btn btn-info" href="/EditarReceita/{{ receita.id_receita }}">Editar</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

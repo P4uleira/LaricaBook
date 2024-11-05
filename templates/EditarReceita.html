@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Receita</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        table {
+          table-layout: auto;
+          width: 100%;
+        }
+        th, td {
+          text-align: center;
+          vertical-align: middle;
+        }
+        .btn-custom {
+          margin-right: 10px;
+        }
+    </style>
+</head>
+<main>
+    <body>
+        {% extends 'Navbar.html' %}
+
+
+        {% block content %}
+        <div class="container mt-5">
+            <div class="container" style="text-align: center;">
+                <img src="{{ url_for('static', filename=receita[1].imagem) }}" alt="Imagem da receita" width="20%" height="20%">
+            </div>
+
+            <div class="container" style="margin-bottom: 3rem;">
+                <form action="/AtualizarReceita" method="POST" enctype="multipart/form-data">
+                    <div style="display: flex;flex-direction: column;gap: 20px;">
+                        <input hidden type="text" class="form-control" id="id_receita" name="id_receita"
+                            value="{{ receita[0].id_receita }}" >
+
+                        <div class="form-group">
+                            <label for="nome_receita">Nome da Receita</label>
+                            <input type="text" class="form-control" id="nome_receita" name="nome_receita"
+                            value="{{ receita[0].nome_receita }}" required>
+                        </div>                   
+
+                        <div class="form-group">
+                            <label for="categoria">Categoria</label>
+                            <select class="form-control" id="categoria" name="categoria" required>
+                                <option value="" disabled selected>Selecione uma categoria</option>
+                                <option value="doces">Doces</option>
+                                <option value="salgados">Salgados</option>
+                                <option value="bebidas">Bebidas</option>
+                                <option value="entradas">Entradas</option>
+                                <option value="massas">Massas</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fontes_links">Fontes/Links</label>
+                            <input type="text" class="form-control" id="fontes_links" name="fontes_links"
+                                value="{{ receita[0].fonte_links }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ingredientes">Ingredientes</label>
+                            <textarea class="form-control" id="ingredientes" name="ingredientes" rows="3"
+                                 required>{% for item in receita[0].ingredientes %}{{ item }}, {% endfor %}    
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="instrucoes">Instruções</label>
+                            <textarea class="form-control" id="instrucoes" name="instrucoes" rows="3"
+                                 required>{{ receita[0].instrucoes }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="porcoes">Porções</label>
+                            <input type="number" class="form-control" id="porcoes" name="porcoes"
+                                value="{{ receita[0].porcoes }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tempo_preparo">Tempo de Preparo (minutos)</label>
+                            <input type="number" class="form-control" id="tempo_preparo" name="tempo_preparo"
+                                value="{{ receita[0].tempo_preparo }}" required>
+                        </div>
+        
+                        <div class="form-group">
+                            <label>Essa receita pode ser pública?</label><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="publico" id="publico_sim" value="true" required>
+                                <label class="form-check-label" for="publico_sim">
+                                    Sim
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="publico" id="publico_nao" value="false" required>
+                                <label class="form-check-label" for="publico_nao">
+                                    Não
+                                </label>
+                            </div>
+                        </div>       
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-success btn-block">Salvar Receita</button>
+                            <a class="btn btn-danger" href="/RemoverReceita/{{ receita[0].id_receita }}">Excluir Receita</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            
+        </script>
+        {% endblock %}
+    </body>
+</main>
+</html>

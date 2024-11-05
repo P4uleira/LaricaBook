@@ -25,8 +25,8 @@ session.execute("""
         tempo_preparo INT,  
         receita_publica BOOLEAN,
         id_usuario UUID,
-        PRIMARY KEY (id_receita, nome_receita)
-    ) WITH CLUSTERING ORDER BY (nome_receita ASC);
+        PRIMARY KEY (id_receita)
+    ) WITH CLUSTERING;
 """)
 
 # Criação da tabela "usuarios"
