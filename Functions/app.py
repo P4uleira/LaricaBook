@@ -203,7 +203,7 @@ def add_receita():
     except Exception as e:
         print(f"Erro ao inserir a receita: {e}")
 
-    return render_template('Home.html')
+    return render_template('home.html')
 
 @app.route('/EditarReceita/<uuid:id_receita>')
 def edit_receita(id_receita):
