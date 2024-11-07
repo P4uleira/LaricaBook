@@ -26,7 +26,7 @@ session.execute("""
         receita_publica BOOLEAN,
         id_usuario UUID,
         PRIMARY KEY (id_receita)
-    ) WITH CLUSTERING;
+    );
 """)
 
 # Criação da tabela "usuarios"
